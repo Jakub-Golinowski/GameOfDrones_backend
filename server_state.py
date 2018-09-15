@@ -24,9 +24,9 @@ class ServerState:
         drone_data_entry = de.DataEntry(drone_data_dict)
         self.drones_dict[drone_data_entry.icao] = drone_data_entry
 
-    def dump_data_dict_to_json(self):
+    def dump_data_dict_to_json(self, involi_dict):
         # filter the involi dict to list of planes
-        planes_list = self.involi_dict["data"]
+        planes_list = involi_dict["data"]
 
         #filter the drone entries s.t. only iaec and geographic position is left:
         drones_list = [self.drones_dict[element].data_entry_dict for element in self.drones_dict]

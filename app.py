@@ -7,6 +7,7 @@ import json
 
 import json_parser as jp
 import server_state as ss
+import involi_worker as wf
 
 # bootstrap the app
 app = Flask(__name__)
@@ -14,6 +15,10 @@ app = Flask(__name__)
 # set the port dynamically with a default of 3000 for local development
 port = int(os.getenv('PORT', '3000'))
 server_state = ss.ServerState()
+
+# Start the involi websocket to receive involi traffic updates with low latency.
+involi_worker = wf.InvoliWorker()
+involi_worker.start()
 
 # our base route which just returns a string
 @app.route('/')
@@ -45,8 +50,7 @@ def delete_drone():
 
 @app.route('/full_data')
 def full_data():
-    server_state.update_involi()
-    return server_state.dump_data_dict_to_json()
+    return server_state.dump_data_dict_to_json(wf.current_request)
 
 
 @app.route('/mirror_recorded')
