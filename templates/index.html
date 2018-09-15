@@ -1,0 +1,36 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+ 
+<html>
+<head>
+<title>Game Of Drones backend homepage. </title>
+</head>
+<body>
+Game Of Drones backend homepage. 
+<br />
+List of endpoints:
+<ul>
+    <li>
+        <a href="map_2d">/map_2d</a> - JSON data for all aircrafts (including drones) but each entry is pruned to contain only latitude, longitude, altitude and aircraft icao number.
+    </li>
+    <li>
+        <a href="mirror_recorded">/mirror_recorded</a> - simply mirrors the involi feed (https://hackzurich.involi.live/http_recorded/).
+    </li>
+    <li>
+        <a href="/post_drone_position">/post_drone_position</a> - URL for POST requests with updated drone data. The form of the request should be the following JSON format: {
+    "icao": "FA4548",
+    "lat": 46.530834474,
+    "lon": 6.2578792135,
+    "alt": 9753,
+    "speed": 236.129796,
+    "heading": -51.76,
+    "last_update": "2018-09-14T22:42:25.898475+00:00"
+}
+    </li>
+    <li>
+         <a href="/full_data">/full_data</a> - URL for full air traffic data (both from drones and from the planes)
+    </li>
+    
+</ul> 
+</body>
+</html>
