@@ -20,17 +20,28 @@ server_state = ss.ServerState()
 def hello_world():
     return render_template("index.html")
 
-@app.route('/post_drone_position', methods=['POST', 'GET'])
+@app.route('/post_drone_position', methods=['POST', 'GET', 'PUT'])
 def post_drone_position():
-    error = None
     if request.method == 'POST':
         #TODO validate the format of the POST
+        server_state.update_drone(json.loads(request.data))
+        return 'OK'
+    elif request.method == 'PUT':
         server_state.update_drone(json.loads(request.data))
         return 'OK'
     else:
         # the code below is executed if the request method
         # was GET or the credentials were invalid
         return 'Use this URL for the post request. For example you can use the following command: curl --header "Content-Type: application/json" --request POST --data \'{ "icao": "FA4548", "lat": 46.530834474, "lon": 6.2578792135, "alt": 9753, "speed": 236.129796, "heading": -51.76, "last_update": "2018-09-14T22:42:25.898475+00:00" }\' http://0.0.0.0:3000/post_drone_position'
+
+@app.route('/post_drone_delete', methods=['POST', 'GET', 'PUT'])
+def delete_drone():
+    if request.method == 'POST' or request.method == 'PUTs':
+        ret_status = server_state.try_drone_delete_by_icao(request.data.decode("utf8"))
+        return ret_status
+    else:
+        return 'Use this URL for the deleting the drone by its icao. For example you can use the following command: curl --header "Content-Type: application/json" --request POST --data \'FA4548\' http://0.0.0.0:3000/post_drone_delete'
+
 
 @app.route('/full_data')
 def full_data():
