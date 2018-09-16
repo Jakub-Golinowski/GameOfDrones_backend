@@ -1,3 +1,5 @@
 Flask>=0.12
 Arrow>=0.12
+Websocket>=0.2.1
+websocket-client>=0.53.0
 
